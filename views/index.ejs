@@ -3,6 +3,9 @@
 <head>
   <title><%= title %></title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <!--追加-->
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css' rel='stylesheet' />
+
 </head>
 <body>
 <%- include('./header'); %>
@@ -14,6 +17,7 @@
       <form action="/" method="post">
         <label>タスクの追加</label>
         <input required type="text" name="add" placeholder="何をする?"/>
+        <input type="date" name="due_date" /> <!-- 追加 -->
         <input type="submit" value="追加"/>
       </form>
     </div>
@@ -26,6 +30,39 @@
     </div>
   </div>
 </div>
+<!-- 追加 -->
+<div class="container mt-4">
+  <div id='calendar'></div>
+</div>
+
+<script 
+src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js'>
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'ja',
+      events: [
+        <% todos.forEach(function(todo) { %>
+          {
+            title: "<%= todo.content %>",
+            start: "<%= todo.due_date %>"
+          },
+        <% }); %>
+      ]
+    });
+    calendar.render();
+  });
+</script>
+
+
+
+
+
+
+
 <% } else { %>
   <h1>Welcome to the TodoApp</h1>
   <a class="btn btn-primary" href="/signup" role="button">Sign up now!</a>
