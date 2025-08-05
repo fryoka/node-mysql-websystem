@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db');
+const db = require('../db/knex');
 
 router.get('/api/tasks', (req, res) => {
   const sql = 'SELECT id, title, deadline AS start FROM tasks';
