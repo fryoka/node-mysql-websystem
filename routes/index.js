@@ -52,6 +52,21 @@ router.post('/', function (req, res, next) {
     });
 });
 
+router.post('/delete/:id', async (req, res) => {
+  const taskId = req.params.id;
+
+  try {
+    await knex('tasks').where({ id: taskId }).del();
+    res.status(200).send('削除成功');
+  } catch (err) {
+    console.error('削除エラー:', err);
+    res.status(500).send('削除失敗');
+  }
+});
+
+
+
+
 router.use('/signup', require('./signup'));
 router.use('/signin', require('./signin'));
 router.use('/logout', require('./logout'));
